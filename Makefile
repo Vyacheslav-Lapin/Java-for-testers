@@ -5,13 +5,13 @@ clear:
 	rm -rf ./target
 
 compile: clear
-#	mkdircy .\target\classes
+#	mkdir .\target\classes
 	mkdir -p ./target/classes
-	javac -d ./target/classes -cp ./src ./src/Program.java
+	javac -d ./target/classes -cp ./src ./src/pkg/Program.java
 
 build: compile
 #	jar cf ./target/Java-for-testers-1.0-SNAPSHOT.jar -C ./target/classes .
-	jar cfe ./target/Java-for-testers-1.0-SNAPSHOT.jar Program -C ./target/classes .
+	jar cfe ./target/Java-for-testers-1.0-SNAPSHOT.jar pkg.Program -C ./target/classes .
 
 run: build
 #	java -cp ./target/classes Program
