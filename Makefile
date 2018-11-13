@@ -1,10 +1,11 @@
 .DEFAULT_GOAL := run
 
 clear:
-	rm -rf ./out
+	rm -rf ./target
 
 compile: clear
-	javac -d ./out -cp ./src ./src/Program.java
+	mkdir -p ./target/classes
+	javac -d ./target/classes -cp ./src ./src/Program.java
 
 run: compile
-	java -cp ./out Program
+	java -cp ./target/classes Program
