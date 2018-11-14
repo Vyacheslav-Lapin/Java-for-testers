@@ -2,7 +2,7 @@ package pkg;
 
 public class Program {
 
-  public static void main(String... __) {
+  public static void main(String[] args) {
 //    System.out.println(MessageSource.getMessage());
 
 //    Fibonacci.get(20).soutv
@@ -10,5 +10,10 @@ public class Program {
 
     System.out.println(Factorial.get(3) == 6); // true
 
+//    args.fori
+    for (int i = 0; i < args.length; i++) {
+//      args[i].sout
+      System.out.println(args[i]);
+    }
   }
 }

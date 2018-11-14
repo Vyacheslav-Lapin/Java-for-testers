@@ -19,7 +19,7 @@ build: clear #compile
 run: build
 #	java -cp ./target/classes Program
 #	java -cp ./target/Java-for-testers-1.0-SNAPSHOT.jar Program
-	java -jar ./target/Java-for-testers-1.0-SNAPSHOT-jar-with-dependencies.jar
+	java -jar ./target/Java-for-testers-1.0-SNAPSHOT-jar-with-dependencies.jar "1 2" 3 4 5
 
 update:
 	./mvnw versions:update-properties versions:display-plugin-updates
