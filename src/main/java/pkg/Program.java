@@ -15,5 +15,7 @@ public class Program {
 //      args[i].sout
       System.out.println(args[i]);
     }
+
+    System.out.println(" 6? - " + (Integer.parseInt(args[1]) + 3)); // 5
   }
 }
