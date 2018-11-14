@@ -186,7 +186,7 @@
           <configuration>
             <archive>
               <manifest>
-                <mainClass>pkg.Program</mainClass>
+                <mainClass>casino.Slot</mainClass>
               </manifest>
             </archive>
             <descriptorRefs>
