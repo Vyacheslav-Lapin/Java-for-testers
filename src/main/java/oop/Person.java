@@ -1,15 +1,18 @@
 package oop;
 
-import lombok.Getter;
-import lombok.Value;
+import lombok.*;
+import lombok.experimental.NonFinal;
 import lombok.experimental.Wither;
 
 import java.util.Date;
+import java.util.Set;
 
 @Value // @Getter, @ToString, @EqualsAndHashCode, @AllArgsConstructor, @FieldDefaults(level = PRIVATE, makeFinal = true)
 //@Data // @Getter, @Setter, @ToString, @EqualsAndHashCode
 //@NoArgsConstructor(force = true)
+//@RequiredArgsConstructor
 @Wither
+@Builder
 public final class Person {
 
   public static double PI = 3.1415;
@@ -19,7 +22,13 @@ public final class Person {
 
 //  @Setter(onParam = @__(@NotNull))
   String lastName;
-  int age;
+
+//  @NonFinal
+  @Builder.Default
+  int age = 55;
+
+  @Singular
+  Set<String> contacts;
 
 //  @Setter(PRIVATE)
   Date dob;
