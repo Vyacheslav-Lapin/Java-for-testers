@@ -1,28 +1,27 @@
 package oop;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
+import lombok.Getter;
+import lombok.Value;
+import lombok.experimental.Wither;
 
 import java.util.Date;
 
-import static lombok.AccessLevel.PRIVATE;
-
-@Data // @Getter, @Setter, @ToString, @EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
-@FieldDefaults(level = PRIVATE)
+@Value // @Getter, @ToString, @EqualsAndHashCode, @AllArgsConstructor, @FieldDefaults(level = PRIVATE, makeFinal = true)
+//@Data // @Getter, @Setter, @ToString, @EqualsAndHashCode
+//@NoArgsConstructor(force = true)
+@Wither
 public final class Person {
 
-  public static final double PI = 3.1415;
+  public static double PI = 3.1415;
 
+  @Getter(onMethod = @__(@SuppressWarnings("unchecked")))
   String firstName;
+
+//  @Setter(onParam = @__(@NotNull))
   String lastName;
   int age;
 
-  @Setter(PRIVATE)
+//  @Setter(PRIVATE)
   Date dob;
   boolean isTester;
 }

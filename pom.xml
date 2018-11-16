@@ -227,6 +227,37 @@
           </executions>
         </plugin>
 
+        <!-- LOMBOK -->
+        <plugin>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok-maven-plugin</artifactId>
+          <version>1.18.4.0</version>
+          <executions>
+            <execution>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>delombok</goal>
+              </goals>
+              <configuration>
+                <addOutputDirectory>false</addOutputDirectory>
+                <sourceDirectory>./src/main/java</sourceDirectory>
+              </configuration>
+            </execution>
+            <execution>
+              <id>test-delombok</id>
+              <phase>generate-test-sources</phase>
+              <goals>
+                <goal>testDelombok</goal>
+              </goals>
+              <configuration>
+                <addOutputDirectory>false</addOutputDirectory>
+                <sourceDirectory>./src/test/java</sourceDirectory>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+
       </plugins>
     </pluginManagement>
 
@@ -244,6 +275,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
       </plugin>
 
     </plugins>
