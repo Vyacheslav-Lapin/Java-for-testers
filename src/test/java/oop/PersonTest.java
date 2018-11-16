@@ -2,15 +2,17 @@ package oop;// import oop.Person
 
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
-import java.util.Set;
 
 import static lombok.AccessLevel.PRIVATE;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 class PersonTest {
 
@@ -28,7 +30,7 @@ class PersonTest {
 //        dob,
 //        true);
 
-    Person person = Person.builder()
+    val person = Person.builder()
         .age(58)
         .lastName("Иванова")
         .dob(new Date())
@@ -38,23 +40,34 @@ class PersonTest {
         .firstName(FIRST_NAME)
         .build();
 
-//    Person person = new Person()
+//    var person = new Person()
 //        .setAge(55)
 //        .setFirstName("Вася")
 //        .setLastName(null);
 
     // then
-    Person person1 = person
+    var person1 = person
         .withLastName("Петрова")
 //        .withAge(15)
 //        .withTester(false)
         ;
 
-    Person person2 = Person.builder()
+    var person2 = Person.builder()
         .lastName("Иванова")
         .dob(new Date())
         .firstName(FIRST_NAME)
         .build();
+
+    var x = 59L; // int
+
+    assertThat(x).isEqualTo(59);
+
+//    try {
+    Class.forName("java.lang.String");
+//    } catch (ClassNotFoundException e) {
+//      e.printStackTrace();
+//      log.warn("Что-то пошло не так!.. :(((");
+//    }
 
     assertThat(person1.getAge()).isEqualTo(58);
     assertThat(person1.getFirstName()).isEqualTo(FIRST_NAME);

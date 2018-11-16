@@ -11,8 +11,10 @@ public final class AnnoExample {
 
   public static void main(String... __) {
 
-    System.out.println(AnnoExample.class
-        .getAnnotation(ClassPreamble.class)
+    ClassPreamble annotation = AnnoExample.class
+        .getAnnotation(ClassPreamble.class);
+
+    System.out.println(annotation
         .reviewers()[1]); // "Bob"
   }
 }
