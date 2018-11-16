@@ -1,7 +1,6 @@
 package oop;
 
 import lombok.*;
-import lombok.experimental.NonFinal;
 import lombok.experimental.Wither;
 
 import java.util.Date;
@@ -13,6 +12,7 @@ import java.util.Set;
 //@RequiredArgsConstructor
 @Wither
 @Builder
+@EqualsAndHashCode(exclude = "age")
 public final class Person {
 
   public static double PI = 3.1415;
