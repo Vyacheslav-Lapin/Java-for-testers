@@ -27,12 +27,13 @@
     <mockito-all.version>2.0.2-beta</mockito-all.version>
     <java-hamcrest.version>2.0.0.0</java-hamcrest.version>
     <assertj-core.version>3.11.1</assertj-core.version>
+    <h2.version>1.4.197</h2.version>
+    <commons-math3.version>3.6.1</commons-math3.version>
 
     <!-- Plugins-->
     <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
     <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
     <maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>
-    <h2.version>1.4.197</h2.version>
   </properties>
 
   <dependencyManagement>
@@ -68,6 +69,12 @@
         <artifactId>annotations</artifactId>
         <version>${annotations.version}</version>
         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-math3</artifactId>
+        <version>${commons-math3.version}</version>
       </dependency>
 
       <!-- TEST (JUnit 5 & Mockito) -->
@@ -118,6 +125,11 @@
   </dependencyManagement>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math3</artifactId>
+    </dependency>
     <!-- COMMON LIBS (Log4J2 & Vavr) -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
@@ -289,10 +301,10 @@
         <artifactId>maven-enforcer-plugin</artifactId>
       </plugin>
 
-      <plugin>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok-maven-plugin</artifactId>
-      </plugin>
+      <!--<plugin>-->
+        <!--<groupId>org.projectlombok</groupId>-->
+        <!--<artifactId>lombok-maven-plugin</artifactId>-->
+      <!--</plugin>-->
 
     </plugins>
   </build>
