@@ -5,3 +5,9 @@
 !/.mvn/wrapper/maven-wrapper.properties
 /**/.mvn/
 /pom.xml.versionsBackup
+
+/**/.gradle/
+!/**/gradle/wrapper/gradle-wrapper.properties
+/**/gradle/
+/**/build/
+#gradlew* - put it to "Extract" category of your project

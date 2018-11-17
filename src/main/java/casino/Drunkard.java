@@ -1,5 +1,7 @@
 package casino;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -7,8 +9,20 @@ import org.apache.commons.math3.util.MathArrays;
 
 import static lombok.AccessLevel.PRIVATE;
 
+@AllArgsConstructor
 enum Value {
-  SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE;
+  SIX(6),
+  SEVEN(7),
+  EIGHT(8),
+  NINE(9),
+  TEN(10),
+  JACK(2),
+  QUEEN(3),
+  KING(4),
+  ACE(11);
+
+  @Getter
+  int score;
 
   static Value get(int cardId) {
     return values()[cardId % 9];
