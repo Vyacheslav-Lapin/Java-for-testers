@@ -13,7 +13,7 @@ import java.sql.DriverManager;
 import static lombok.AccessLevel.PRIVATE;
 
 @Value
-//@FieldNameConstants
+@FieldNameConstants
 class Student {
   Long id;
   String name;
@@ -40,8 +40,8 @@ public class JdbcSimpleExample {
     @Cleanup val resultSet = statement.executeQuery(GET_STUDENTS_SQL);
     while (resultSet.next())
       System.out.println(new Student(
-          resultSet.getLong("id"),
-          resultSet.getString("name"),
-          resultSet.getInt("groupId")));
+          resultSet.getLong(Student.Fields.id),
+          resultSet.getString(Student.Fields.name),
+          resultSet.getInt(Student.Fields.groupId)));
   }
 }

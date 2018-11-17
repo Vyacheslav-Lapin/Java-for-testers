@@ -1,7 +1,11 @@
 package casino;
 
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.math3.util.MathArrays;
+
+import java.util.Comparator;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -22,10 +26,53 @@ enum Suit {
 }
 
 @FieldDefaults(level = PRIVATE)
+class IntArrayQueue {
+  int[] values;
+  int[] counters = new int[2]; // [head, tail]
+
+  IntArrayQueue(int[] src, int start, int length, int maxLength) {
+    values = new int[maxLength];
+    System.arraycopy(src, start, values, 0, length);
+    counters[1] = length;
+  }
+
+  @SuppressWarnings("WeakerAccess")
+  public int get() {
+    int head = incrementCounter(0);
+    return values[head];
+  }
+
+  @SuppressWarnings("WeakerAccess")
+  public void set(int cardId) {
+    int tail = incrementCounter(1);
+    values[tail] = cardId;
+  }
+
+  @SuppressWarnings("WeakerAccess")
+  public boolean isFullOrEmpty() {
+    return counters[0] == counters[1];
+  }
+
+  /**
+   * @param counterId 0 - head, 1 - tail
+   * @return counter++
+   */
+  private int incrementCounter(int counterId) {
+    int result;
+    result = counters[counterId]++;
+    counters[counterId] %= values.length;
+    return result;
+  }
+}
+
+@Slf4j
+@UtilityClass
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public final class Drunkard {
 
-  static int[] cardIds1 = new int[36];
-  static int[] cardIds2 = new int[36];
+  int CARDS_LENGTH;
+  int CARDS_HALF_LENGTH;
+  IntArrayQueue[] playersCards = new IntArrayQueue[2];
 
   static {
     int[] cardIds = {
@@ -35,82 +82,37 @@ public final class Drunkard {
         27, 28, 29, 30, 31, 32, 33, 34, 35 // трефы (крести)
     };
 
+    CARDS_LENGTH = cardIds.length;
+    CARDS_HALF_LENGTH = CARDS_LENGTH / 2;
+
     MathArrays.shuffle(cardIds);
 
-    System.arraycopy(cardIds, 0, cardIds1, 0, 18);
-    System.arraycopy(cardIds, 18, cardIds2, 0, 18);
-
-//    for (int cardId : cardIds1) System.out.print(toString(cardId) + ", ");
-//    System.out.println();
-//    for (int cardId : cardIds2) System.out.print(toString(cardId) + ", ");
-
+    playersCards[0] = new IntArrayQueue(cardIds, 0, CARDS_HALF_LENGTH, CARDS_LENGTH);
+    playersCards[1] = new IntArrayQueue(cardIds, CARDS_HALF_LENGTH, CARDS_LENGTH, CARDS_LENGTH);
   }
-
-//  static int[][] counts = {{0, 18}, {0, 18}};
-
-  static int head1; // = 0
-  static int head2; // = 0
-
-  static int tail1 = 18;
-  static int tail2 = 18;
 
   public static void main(String... __) {
 
     boolean isFirstPlayerLastWin = true;
 
     do {
-      // TODO: 2018-11-16 решить задачу - написать логику игры
-    } while(!isFinished());
+      int card1 = playersCards[0].get();
+      int card2 = playersCards[0].get();
 
-    if (isFirstPlayerLastWin) {
-      System.out.println("Вы выиграли! Поздравляем! :)))");
-    } else {
-      System.out.println("Вы проиграли! Соболезнуем... :(");
-    }
+
+
+    } while (!playersCards[0].isFullOrEmpty());
+
+    log.info(isFirstPlayerLastWin ?
+        "Вы выиграли! Поздравляем! :)))"
+        : "Вы проиграли! Соболезнуем... :(");
   }
 
   private static String toString(int cardId) {
     return Value.get(cardId) + " " + Suit.get(cardId);
   }
 
-  private static int getCardId(int player) {
-    int head = incrementHead(player);
-    return player == 0 ? cardIds1[head] : cardIds2[head];
-  }
-
-  private static void setCardId(int player, int cardId) {
-    if (player == 0) cardIds1[incrementTail(player)] = cardId;
-    else cardIds2[incrementTail(player)] = cardId;
-  }
-
-  private static boolean isFinished() {
-    return head1 == tail1;
-  }
-
-  private static int incrementHead(int player) {
-    int result;
-    if (player == 0) {
-      result = head1++;
-      head1 %= 36;
-    } else {
-      result = head2++;
-      head2 %= 36;
-    }
-
-    return result;
-  }
-
-  private static int incrementTail(int player) {
-    int result;
-
-    if (player == 0) {
-      result = tail1++;
-      tail1 %= 36;
-    } else {
-      result = tail2++;
-      tail2 %= 36;
-    }
-
-    return result;
+  public int compare(Integer o1, Integer o2) {
+    return 0;
   }
 }

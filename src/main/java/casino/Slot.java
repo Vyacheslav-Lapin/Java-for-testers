@@ -4,7 +4,7 @@ import java.util.Random;
 
 public final class Slot {
 
-  private final static int BARABAN_LENGTH = 7;
+  private final static int BARABAN_LENGTH = 25;
 
   public static void main(String[] args) {
 
