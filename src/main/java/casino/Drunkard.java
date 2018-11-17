@@ -5,8 +5,6 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.math3.util.MathArrays;
 
-import java.util.Comparator;
-
 import static lombok.AccessLevel.PRIVATE;
 
 enum Value {
@@ -63,6 +61,12 @@ class IntArrayQueue {
     counters[counterId] %= values.length;
     return result;
   }
+
+  public int cardsCount() {
+    int head = incrementCounter(0);
+    int tail = incrementCounter(1);
+    return tail - head + (head < tail ? 0 : values.length);
+  }
 }
 
 @Slf4j
@@ -88,20 +92,53 @@ public final class Drunkard {
     MathArrays.shuffle(cardIds);
 
     playersCards[0] = new IntArrayQueue(cardIds, 0, CARDS_HALF_LENGTH, CARDS_LENGTH);
-    playersCards[1] = new IntArrayQueue(cardIds, CARDS_HALF_LENGTH, CARDS_LENGTH, CARDS_LENGTH);
+    playersCards[1] = new IntArrayQueue(cardIds, CARDS_HALF_LENGTH, CARDS_HALF_LENGTH, CARDS_LENGTH);
   }
 
   public static void main(String... __) {
 
-    boolean isFirstPlayerLastWin = true;
+    Boolean isFirstPlayerLastWin = true;
 
-    do {
+    for (int counter = 1; !playersCards[0].isFullOrEmpty(); counter++) {
       int card1 = playersCards[0].get();
       int card2 = playersCards[0].get();
 
+      int compare = compare(card1, card2);
 
+      if (compare == 0) {
+        playersCards[0].set(card1);
+        playersCards[1].set(card2);
+        log.info("Раунд №{}; Результат - спор. Карта игрока №1 {}, кол-во карт {}; карта игрока №2 - {}, кол-во карт {}",
+            counter,
+            toString(card1),
+            playersCards[0].cardsCount(),
+            toString(card2),
+            playersCards[1].cardsCount());
+        isFirstPlayerLastWin = null;
+      } else if (compare > 0) {
+        playersCards[0].set(card1);
+        playersCards[0].set(card2);
+        log.info("Раунд №{}; Результат - выиграл игрок №1. Карта игрока №1 {}, кол-во карт {}; карта игрока №2 - {}, кол-во карт {}",
+            counter,
+            toString(card1),
+            playersCards[0].cardsCount(),
+            toString(card2),
+            playersCards[1].cardsCount());
+        isFirstPlayerLastWin = true;
+      } else {
+        playersCards[1].set(card1);
+        playersCards[1].set(card2);
+        log.info("Раунд №{}; Результат - выиграл игрок №2. Карта игрока №1 {}, кол-во карт {}; карта игрока №2 - {}, кол-во карт {}",
+            counter,
+            toString(card1),
+            playersCards[0].cardsCount(),
+            toString(card2),
+            playersCards[1].cardsCount());
+        isFirstPlayerLastWin = false;
+      }
+    }
 
-    } while (!playersCards[0].isFullOrEmpty());
+    assert isFirstPlayerLastWin != null;
 
     log.info(isFirstPlayerLastWin ?
         "Вы выиграли! Поздравляем! :)))"
@@ -112,7 +149,11 @@ public final class Drunkard {
     return Value.get(cardId) + " " + Suit.get(cardId);
   }
 
-  public int compare(Integer o1, Integer o2) {
-    return 0;
+  public int compare(int card1Id, int card2Id) {
+    int value1 = Value.get(card1Id).ordinal(); // card1Id % 9;
+    int value2 = Value.get(card2Id).ordinal(); // card2Id % 9;
+
+    int partialResult = value1 - value2;
+    return Math.abs(partialResult) == 8 ? -partialResult : partialResult;
   }
 }
